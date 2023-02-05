@@ -1,10 +1,13 @@
 import React from 'react';
 import AdBanner from './AdBanner';
+import RecipeCard from '../componentCards/RecipeCard';
+import SearchBar from './SearchBar';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const HomeScreen = () => {
   const [recipes, setRecipes] = useState([]);
+  const [term, setTerm] = useState('');
 
   const getRecipes = () => {
     axios
@@ -18,13 +21,32 @@ const HomeScreen = () => {
   useEffect(() => {
     getRecipes()
   }, []);
+  
+  const handleSubmit = (searchTerm) => {
+    setTerm(searchTerm);
+  };
 
   return (
-    <div>
+    <div >
       <AdBanner />
-      {/* Much code from Part 2 will be placed around here. Do your best! */}
+      <div className="content-container">
+        <div className='search-bar-container'>
+          <SearchBar handleSubmit={handleSubmit} />
+        </div>
+        <div className='recipe-card-container'>
+          {
+            recipes
+              .filter((recipe) => recipe.recipe_name.toLowerCase().includes(term.toLowerCase()))
+              .filter((recipe) => recipe.image_url)
+              .slice(0, 3)
+              .map((recipe) => (
+                <RecipeCard key={recipe.recipe_id} recipe={recipe}/>
+              ))
+          }   
+        </div>
+      </div>
     </div>
   )
 }
 
-export default HomeScreen
+export default HomeScreen;
