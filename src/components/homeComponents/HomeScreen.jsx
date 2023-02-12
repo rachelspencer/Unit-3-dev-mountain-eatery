@@ -1,5 +1,5 @@
 import React from 'react';
-import AdBanner from './AdBanner';
+import Banner from '../Banners/Banner';
 import RecipeCard from '../componentCards/RecipeCard';
 import SearchBar from './SearchBar';
 import { useState, useEffect } from 'react';
@@ -28,8 +28,14 @@ const HomeScreen = () => {
 
   return (
     <div >
-      <AdBanner />
-      <div className="content-container">
+      {recipes[2] && 
+      <Banner 
+        eyebrow={"New Recipe"} 
+        recipe={recipes[2]} 
+        description={"Looks delicious right! Become your own master chef and re-create this yourself. Happy food making!"}
+        buttonText= {"Check it out"}
+      />}
+      <div className="recipe-content-container">
         <div className='search-bar-container'>
           <SearchBar handleSubmit={handleSubmit} />
         </div>
